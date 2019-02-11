@@ -13,11 +13,9 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(T t) {
+        data[size++] = t;
         if (size == data.length) {
             data = Arrays.copyOf(data, data.length * 2);
-            data[size++] = t;
-        } else {
-            data[size++] = t;
         }
     }
 
