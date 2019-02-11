@@ -3,26 +3,22 @@ package com.gmail.granovskiy.s;
 import java.util.Arrays;
 
 public class ArrayList<T> implements List<T> {
-    private int arrayLength = 7;
-    private Object[] arrayOne;
+    private static final int DEFAULT_CAPACITY = 10;
+    private Object[] data;
     private int size = 0;
 
     public ArrayList() {
-        arrayOne = new Object[arrayLength];
+        data = new Object[DEFAULT_CAPACITY];
     }
 
     @Override
     public void add(T t) {
-        if (size == arrayOne.length) {
-            resize(arrayOne.length + 1);
-            arrayOne[size++] = t;
+        if (size == data.length) {
+            data = Arrays.copyOf(data, data.length * 2);
+            data[size++] = t;
         } else {
-            arrayOne[size++] = t;
+            data[size++] = t;
         }
-    }
-
-    private void resize(int newArrayLength) {
-        arrayOne = Arrays.copyOf(arrayOne, newArrayLength);
     }
 
     @Override
@@ -31,30 +27,30 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public T get(int i) {
-        checkI(i);
-        return (T) arrayOne[i];
+    public T get(int index) {
+        checkIndex(index);
+        return (T) data[index];
     }
 
-    private void checkI(int i) {
-        if (i < 0 || i > size) {
-            throw new ArrayIndexOutOfBoundsException("Index: " + i + ", Size: " + size);
+    private void checkIndex(int index) {
+        if (index < 0 || index > size) {
+            throw new ArrayIndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
     }
 
     @Override
-    public void remove(int i) {
-        checkI(i);
-        int newSize = size - i - 1;
-        System.arraycopy(arrayOne, i + 1, arrayOne, i, newSize);
-        arrayOne[--size] = null;
+    public void remove(int index) {
+        checkIndex(index);
+        int newSize = size - index - 1;
+        System.arraycopy(data, index + 1, data, index, newSize);
+        data[--size] = null;
     }
 
     @Override
     public String toString() {
         T[] temp = (T[]) new Object[size];
         for (int i = 0; i < temp.length; i++) {
-            temp[i] = (T) arrayOne[i];
+            temp[i] = (T) data[i];
         }
         return Arrays.toString(temp);
     }

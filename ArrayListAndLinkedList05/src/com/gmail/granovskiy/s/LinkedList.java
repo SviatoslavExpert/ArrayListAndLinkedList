@@ -18,15 +18,15 @@ public class LinkedList<T> implements List<T> {
         size++;
     }
 
-    private void checkIndexException(int index) {
+    private void checkIndex(int index) {
         if (index < 0 || index > size) {
-            throw new ArrayIndexOutOfBoundsException("index: " + index);
+            throw new ArrayIndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
     }
 
     @Override
     public T get(int index) {
-        checkIndexException(index);
+        checkIndex(index);
         Node<T> node = getNode(index);
         if(node != null) {
             return node.element;
@@ -45,7 +45,7 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public void remove(int index) {
-        checkIndexException(index);
+        checkIndex(index);
         Node<T> node = getNode(index);
         Node<T> prev = node.prev;
         Node<T> next = node.next;
